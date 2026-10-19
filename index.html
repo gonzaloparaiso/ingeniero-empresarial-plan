@@ -108,7 +108,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const TO = "irene.comalada@epls-fit.com";
+const TO = "irene.comalada@epls-fit.com,gonzalo.paraiso@epls-fit.com";
 const STORE = "rafa-plan-tecnico-v1";
 
 const SECTIONS = [
@@ -331,7 +331,7 @@ async function copyText(txt){
   }
 }
 document.getElementById("copy").addEventListener("click", async () => {
-  toast(await copyText(summary()) ? "Respuestas copiadas. Pégalas en un email a " + TO : "No se ha podido copiar");
+  toast(await copyText(summary()) ? "Respuestas copiadas. Pégalas en un email a " + TO.replace(",", " y ") : "No se ha podido copiar");
 });
 document.getElementById("send").addEventListener("click", async () => {
   const body = summary();
