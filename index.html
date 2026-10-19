@@ -308,11 +308,16 @@ app.innerHTML = html;
 
 /* ---------- CREATIVOS ---------- */
 const FORMATS = {
-  reel: "Reel 9:16 · Rafa a cámara · 30-45 s",
+  reel: "Reel 9:16 · Rafa a cámara · 3 duraciones",
   carrusel: "Carrusel 4:5 · 5-6 láminas",
   estatico: "Imagen 4:5 · frase + foto de Rafa"
 };
 const STEPS = ["Brief OK", "Grabado", "Editado", "Subido a Meta"];
+const DURS = [
+  ["15 s","Solo el gancho y la llamada. Para frío y para Stories."],
+  ["30-45 s","Gancho, el problema contado y la llamada. La versión base."],
+  ["60-90 s","Gancho, el problema y cómo lo mira Rafa. Filtra: quien llega al final está interesado."]
+];
 const PAINS = { est:"Crecimiento estancado", mor:"Morir de éxito", dil:"Dilema estratégico" };
 
 const SECTORS = [
@@ -385,12 +390,16 @@ const SPECS = [
   "Subtítulos grabados en el vídeo (la mayoría lo ve sin sonido)",
   "Texto y caras dentro de la zona segura (sin pegar arriba ni abajo)",
   "Buena luz y audio limpio: micro de solapa, sin eco",
-  "Cierre con una sola llamada: ver el vídeo completo",
-  "Cada anuncio con su nombre y UTM: SECTOR_DOLOR_FORMATO_v1 (ej. CONS_dil_reel_v1)",
+  "Cada Reel en 3 duraciones: 15 s, 30-45 s y 60-90 s",
+  "Una sola llamada por anuncio (ver el vídeo completo o escribir por Instagram), probando las dos entre versiones",
+  "Cada anuncio con su nombre y UTM: SECTOR_DOLOR_FORMATO_DURACIÓN_LLAMADA (ej. CONS_dil_reel_15s_vsl)",
   "Sin musiquita épica, emojis ni promesas de facturación: tiene que sonar a Rafa"
 ];
 
 let ch = "";
+ch += `<section><h2><span class="n">≈</span>Variedad creativa</h2><p class="lead">Meta necesita variedad para encontrar a quién enseñar cada anuncio. Cada Reel se monta en 3 duraciones a partir de la misma grabación, y probamos llamadas distintas: la misma pieza puede cerrar con «mira el vídeo completo» o con «escríbeme por Instagram».</p>
+<div class="tablewrap"><table><thead><tr><th>Duración</th><th>Qué lleva</th></tr></thead><tbody>${DURS.map(d=>`<tr><td><b>${d[0]}</b></td><td>${esc(d[1])}</td></tr>`).join("")}</tbody></table></div>
+<div class="note">Con 5 Reels de la ola 1 en 3 duraciones salen 15 anuncios de una sola grabación. Además, combinamos Reels, carruseles e imágenes, para no depender de un solo formato.</div></section>`;
 ch += `<section><h2><span class="n">✓</span>Checklist de formato</h2><p class="lead">Cada pieza tiene que cumplir esto antes de subirla a Meta.</p>` +
   SPECS.map((s,i)=>`<label class="check"><input type="checkbox" data-check="spec.${i}"><span>${esc(s)}</span></label>`).join("") + `</section>`;
 
@@ -405,6 +414,7 @@ SECTORS.forEach((s, si) => {
       <p class="meta">${esc(FORMATS[p.fmt])} · <span class="code">${code}</span></p>
       <p class="hook">«${esc(p.hook)}»</p>
       <p class="desc">${esc(p.desc)}</p>
+      ${p.fmt==="reel" ? `<p class="meta" style="margin-bottom:6px">Versiones montadas</p><div class="steps" style="margin-bottom:8px">${DURS.map((d,i)=>`<label><input type="checkbox" data-check="cr.${code}.d${i}">${d[0]}</label>`).join("")}</div><p class="meta" style="margin-bottom:6px">Estado</p>` : ""}
       <div class="steps">${STEPS.map((st,i)=>`<label><input type="checkbox" data-check="cr.${code}.${i}">${st}</label>`).join("")}</div>
     </div>`;
   });
@@ -516,7 +526,7 @@ function summary(){
   const br = (data["i:crea.brutos"]||"").trim(); if (br) out.push(`- Brutos: ${br}`);
   const gp = (data["t:crea.ganchos"]||"").trim(); if (gp) out.push(`- Ganchos y promesas: ${gp}`);
   PIECE_CODES.forEach(c => {
-    const st = STEPS.filter((s,i)=>data[`c:cr.${c}.${i}`]);
+    const st = STEPS.filter((s,i)=>data[`c:cr.${c}.${i}`]).concat(DURS.filter((d,i)=>data[`c:cr.${c}.d${i}`]).map(d=>"versión "+d[0]));
     if (st.length) out.push(`- ${c}: ${st.join(", ")}`);
   });
   const cn = (data["t:crea.notes"]||"").trim();
