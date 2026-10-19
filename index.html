@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Plan técnico de arranque · Rafael Navarro</title>
+<title>Arranque de campaña · Rafael Navarro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -69,6 +69,25 @@
   .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--yellow);color:#222;padding:10px 16px;font-weight:600;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20;max-width:calc(100% - 32px);text-align:center}
   .toast.on{opacity:1}
   .saved{font-size:12px;color:#aaa}
+  .tabs{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+  .tabs button{font:inherit;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.05em;padding:10px 18px;border:1.5px solid var(--line);background:#fff;color:var(--muted);cursor:pointer}
+  .tabs button[aria-selected=true]{background:var(--teal);border-color:var(--teal);color:#fff}
+  .tabs button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+  .wave{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;margin-right:6px;vertical-align:middle}
+  .wave.w1{background:var(--yellow);color:#222}
+  .wave.w2{background:#eee;color:#555}
+  .wave.rt{background:#222;color:#fff}
+  .piece{background:#fff;border:1px solid var(--line);border-left:4px solid var(--line);padding:16px;margin-bottom:12px}
+  .piece.w1{border-left-color:var(--yellow)}
+  .piece.done{border-left-color:var(--teal)}
+  .piece h3{margin:0 0 6px;font-size:15px;line-height:1.35}
+  .meta{font-size:12px;color:var(--muted);margin:0 0 10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .hook{background:var(--mint);border-left:3px solid var(--teal);padding:8px 12px;font-weight:600;margin:0 0 8px}
+  .desc{margin:0 0 12px;font-size:14px;color:#333}
+  .steps{display:flex;flex-wrap:wrap;gap:8px}
+  .steps label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;border:1px solid var(--line);padding:5px 10px;cursor:pointer;background:#fafafa}
+  .steps input{accent-color:var(--teal);width:16px;height:16px}
+  .code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#888;font-weight:400;text-transform:none;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -76,18 +95,38 @@
 <header>
   <div class="wrap">
     <p class="kicker">Easy Peasy Lemon Squeezy · para Rafael Navarro</p>
-    <h1>Plan técnico de arranque</h1>
+    <h1>Arranque de la campaña</h1>
     <div class="bar"></div>
-    <p class="intro">Rafa, con esto arrancamos la fase 1 sin perder la primera semana pidiendo cosas. En cada punto marca si ya lo tienes y deja al lado el enlace, el usuario o quién lo gestiona. Al terminar, pulsa <b>Enviar</b> y nos llega por email.</p>
+    <nav class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="plan">Plan técnico</button>
+      <button type="button" role="tab" data-tab="creativos">Creativos</button>
+    </nav>
+  </div>
+</header>
+
+<div id="panel-plan" class="panel">
+  <div class="wrap">
+    <p class="intro" style="margin-top:28px">Rafa, con esto arrancamos la fase 1 sin perder la primera semana pidiendo cosas. En cada punto marca si ya lo tienes y deja al lado el enlace, el usuario o quién lo gestiona. Al terminar, pulsa <b>Enviar</b> y nos llega por email.</p>
     <div class="rules">
       <div class="rule warn"><b>No escribas contraseñas</b>Los accesos se dan invitando a irene.comalada@epls-fit.com como administradora o socia.</div>
       <div class="rule"><b>¿No lo sabes?</b>Marca «No lo sé» y lo vemos juntos en una llamada de 20 minutos.</div>
       <div class="rule"><b>Se guarda solo</b>Lo que escribes se queda en este navegador. Puedes cerrar y volver más tarde.</div>
     </div>
   </div>
-</header>
+  <main class="wrap" id="app"></main>
+</div>
 
-<main class="wrap" id="app"></main>
+<div id="panel-creativos" class="panel" hidden>
+  <div class="wrap">
+    <p class="intro" style="margin-top:28px">Los anuncios salen de un cruce: <b>5 sectores × 3 dolores = 15 piezas</b>, más un set de retargeting. Con 700 € al mes de tráfico frío no se pueden probar las 15 a la vez con datos fiables, así que vamos por olas: arrancamos con 5 y entra la siguiente ola cuando sepamos qué funciona.</p>
+    <div class="rules">
+      <div class="rule"><b>El mensaje es el tuyo</b>Los ganchos salen de tu documento de cliente y de tu landing. Cámbialos con tus palabras al grabar.</div>
+      <div class="rule"><b>Una sola sesión</b>Las 5 piezas de la ola 1 se graban en una mañana: unas 2 horas, frente a cámara, sin edición.</div>
+      <div class="rule warn"><b>Nos pasas el bruto</b>Nosotros cortamos, subtitulamos y montamos. Graba cada pieza 2 o 3 veces.</div>
+    </div>
+  </div>
+  <main class="wrap" id="crea"></main>
+</div>
 
 <div class="wrap">
   <footer>
@@ -98,7 +137,7 @@
 <div class="dock">
   <div class="wrap">
     <div class="prog">
-      <small><span id="count">0</span> de <span id="total">0</span> puntos marcados · <span class="saved" id="saved">guardado</span></small>
+      <small><span id="count">0</span> de <span id="total">0</span> <span id="plabel">puntos marcados</span> · <span class="saved" id="saved">guardado</span></small>
       <div class="track"><div class="fill" id="fill"></div></div>
     </div>
     <button class="btn ghost" id="copy" type="button">Copiar</button>
@@ -253,32 +292,175 @@ SECTIONS.forEach((s, si) => {
 html += `<section><h2><span class="n">+</span>Algo más</h2><p class="lead">Cualquier cosa que quieras que sepamos antes de empezar.</p><textarea data-text="extra" placeholder="Comentarios"></textarea></section>`;
 app.innerHTML = html;
 
+/* ---------- CREATIVOS ---------- */
+const FORMATS = {
+  reel: "Reel 9:16 · Rafa a cámara · 30-45 s",
+  carrusel: "Carrusel 4:5 · 5-6 láminas",
+  estatico: "Imagen 4:5 · frase + foto de Rafa"
+};
+const STEPS = ["Brief OK", "Grabado", "Editado", "Subido a Meta"];
+const PAINS = { est:"Crecimiento estancado", mor:"Morir de éxito", dil:"Dilema estratégico" };
+
+const SECTORS = [
+  { id:"CONS", name:"Construcción e instalaciones",
+    why:"Piensa en obras, jefes de obra y certificaciones. Le habla el lenguaje de obra, no de consultoría.",
+    pieces:[
+      { pain:"dil", wave:1, fmt:"reel", hook:"¿Compro la nave o contrato al jefe de obra?",
+        desc:"Rafa plantea el dilema tal cual y explica que la respuesta no depende de cuál es mejor, sino de dónde está hoy el cuello de botella. Cierra: en el vídeo explico cómo lo decidimos con números." },
+      { pain:"est", wave:2, fmt:"reel", hook:"Tienes más obra que hace tres años y te queda lo mismo.",
+        desc:"Dos fugas típicas de margen en obra: desviaciones que no se repercuten y certificaciones que se cobran tarde. Sin cifras inventadas: lo que ve cuando entra en una constructora." },
+      { pain:"mor", wave:2, fmt:"estatico", hook:"Si tu jefe de obra se va mañana, ¿cuántas obras se paran?",
+        desc:"Frase sobre foto de Rafa. Texto del anuncio: la dependencia de una o dos personas clave como riesgo que nadie pone en el balance." }
+    ]},
+  { id:"FAB", name:"Fabricantes y talleres",
+    why:"Su día a día es planificar producción y apagar fuegos en planta. El dueño suele ser el planificador.",
+    pieces:[
+      { pain:"mor", wave:1, fmt:"reel", hook:"Si te vas un mes, el taller se para.",
+        desc:"Rafa describe la escena: el dueño planifica, compra, presupuesta y atiende incidencias. Qué pasa en la primera semana de vacaciones. Cierra con convertir la empresa en un sistema que funcione sin ti." },
+      { pain:"est", wave:2, fmt:"reel", hook:"Vendes más horas de máquina y el margen no se mueve.",
+        desc:"Escandallos que no reflejan el coste real y precios que no se revisan. Por qué facturar más no arregla un margen por debajo del 10 %." },
+      { pain:"dil", wave:2, fmt:"carrusel", hook:"¿Compras la máquina o subcontratas esa operación?",
+        desc:"Carrusel con las 4-5 preguntas que Rafa se hace antes de decidir: capacidad, dependencia del proveedor, tesorería, plazo. Última lámina: el vídeo completo." }
+    ]},
+  { id:"MAY", name:"Mayorista y transporte",
+    why:"Viven entre proveedor y cliente: margen estrecho, plazos de cobro y pago, flota y almacén.",
+    pieces:[
+      { pain:"est", wave:1, fmt:"reel", hook:"Facturas más, cobras más tarde y pagas antes.",
+        desc:"Márgenes secuestrados entre proveedores y clientes, y por qué la tesorería tensionada no es lo mismo que un margen tensionado. Rafa separa los dos problemas en 40 segundos." },
+      { pain:"mor", wave:2, fmt:"estatico", hook:"Tu almacén funciona porque hay una persona que sabe dónde está todo.",
+        desc:"Frase sobre foto. Texto del anuncio: dependencias invisibles en logística y qué pasa el día que esa persona falta." },
+      { pain:"dil", wave:2, fmt:"carrusel", hook:"¿Flota propia o subcontratada? ¿Delegación o centralizar?",
+        desc:"Carrusel de dilemas con el autodiagnóstico «Qué va al centro y qué a cada delegación» como cierre. Sirve también de lead magnet." }
+    ]},
+  { id:"AGRO", name:"Agroindustria y sector primario",
+    why:"Empresas familiares, campañas que mandan en la tesorería y relevo generacional encima de la mesa.",
+    pieces:[
+      { pain:"mor", wave:1, fmt:"reel", hook:"Entra la segunda generación y nadie sabe quién decide qué.",
+        desc:"El relevo generacional como fricción en la propiedad y como oportunidad para ordenar la empresa. Rafa de igual a igual, sin tomar partido por padre ni hijo." },
+      { pain:"est", wave:2, fmt:"reel", hook:"Campaña buena, campaña mala, y la tesorería siempre al límite.",
+        desc:"Previsión de tesorería en un negocio estacional: por qué una buena campaña no deja caja si no se planifica el año entero." },
+      { pain:"dil", wave:2, fmt:"carrusel", hook:"¿Transformas tú o sigues vendiendo a granel?",
+        desc:"Carrusel con lo que hay que mirar antes de integrar un paso de la cadena: inversión, mercado, equipo y quién lo va a dirigir." }
+    ]},
+  { id:"RET", name:"Comercio y servicios retail",
+    why:"Varios puntos de venta, encargados clave y la tentación de abrir otra tienda para crecer.",
+    pieces:[
+      { pain:"est", wave:1, fmt:"reel", hook:"Abriste otra tienda y no se nota en la cuenta de resultados.",
+        desc:"Crecer en puntos de venta sin crecer en resultado: tiendas que se comen a otras y costes de estructura. Rafa explica qué mira primero." },
+      { pain:"mor", wave:2, fmt:"estatico", hook:"Cada tienda funciona mientras esté el encargado bueno.",
+        desc:"Frase sobre foto. Texto del anuncio: depender de personas en vez de procesos, y lo difícil que es encontrar y retener a esa gente." },
+      { pain:"dil", wave:2, fmt:"reel", hook:"¿Abres otra tienda o haces rentables las que tienes?",
+        desc:"El dilema de crecimiento orgánico frente a ordenar lo que hay. Cierra con el vídeo completo." }
+    ]}
+];
+
+const RETARGETING = [
+  { id:"RT_TEST", fmt:"Reel 9:16 · clip de testimonio · 20-40 s", hook:"Testimonios de 2024 (los de destacados de Instagram)",
+    desc:"2-3 cortes de los vídeos que ya existen. Para quien vio el VSL o visitó la landing y no agendó. Nada que grabar." },
+  { id:"RT_VSL", fmt:"Reel 9:16 · fragmento del VSL · 30-60 s", hook:"«No contrates consultoría (antes de ver este vídeo)»",
+    desc:"3 fragmentos del VSL de 11 minutos, uno por dolor. Para quien entró pero vio menos del 25 %. Nada que grabar." },
+  { id:"RT_DM", fmt:"Imagen o Reel corto · anuncio a mensaje de Instagram", hook:"Si prefieres contármelo por escrito, escríbeme por aquí.",
+    desc:"Lleva a una conversación por Instagram en vez de a la agenda: menos fricción para quien no quiere dar datos. Necesita que alguien conteste en horas." },
+  { id:"RT_WAIT", fmt:"Imagen 4:5", hook:"Trabajo con pocas empresas a la vez. Si ahora no es el momento, entra en la lista de espera.",
+    desc:"Para quien visitó la agenda y no reservó. Escasez real, sin cuenta atrás ni plazas inventadas: el número exacto de plazas lo ponemos cuando cerremos tu capacidad real." }
+];
+
+const SPECS = [
+  "Vertical 9:16 a 1080×1920 para Reels; 4:5 a 1080×1350 para feed",
+  "Gancho en los 3 primeros segundos: la frase del brief, sin saludo ni presentación",
+  "Subtítulos grabados en el vídeo (la mayoría lo ve sin sonido)",
+  "Texto y caras dentro de la zona segura (sin pegar arriba ni abajo)",
+  "Buena luz y audio limpio: micro de solapa, sin eco",
+  "Cierre con una sola llamada: ver el vídeo completo",
+  "Cada anuncio con su nombre y UTM: SECTOR_DOLOR_FORMATO_v1 (ej. CONS_dil_reel_v1)",
+  "Sin musiquita épica, emojis ni promesas de facturación: tiene que sonar a Rafa"
+];
+
+let ch = "";
+ch += `<section><h2><span class="n">✓</span>Checklist de formato</h2><p class="lead">Cada pieza tiene que cumplir esto antes de subirla a Meta.</p>` +
+  SPECS.map((s,i)=>`<label class="check"><input type="checkbox" data-check="spec.${i}"><span>${esc(s)}</span></label>`).join("") + `</section>`;
+
+let total = 0;
+SECTORS.forEach((s, si) => {
+  ch += `<section><h2><span class="n">${si+1}</span>${esc(s.name)}</h2><p class="lead">${esc(s.why)}</p>`;
+  s.pieces.forEach(p => {
+    total++;
+    const code = `${s.id}_${p.pain}_${p.fmt}_v1`;
+    ch += `<div class="piece ${p.wave===1?"w1":""}" data-piece="${code}">
+      <h3><span class="wave ${p.wave===1?"w1":"w2"}">Ola ${p.wave}</span>${esc(PAINS[p.pain])}</h3>
+      <p class="meta">${esc(FORMATS[p.fmt])} · <span class="code">${code}</span></p>
+      <p class="hook">«${esc(p.hook)}»</p>
+      <p class="desc">${esc(p.desc)}</p>
+      <div class="steps">${STEPS.map((st,i)=>`<label><input type="checkbox" data-check="cr.${code}.${i}">${st}</label>`).join("")}</div>
+    </div>`;
+  });
+  ch += `</section>`;
+});
+ch += `<section><h2><span class="n">R</span>Retargeting</h2><p class="lead">Para quien ya nos ha visto. Casi todo sale de material que ya tienes: no hace falta grabar.</p>`;
+RETARGETING.forEach(r => {
+  total++;
+  ch += `<div class="piece" data-piece="${r.id}">
+    <h3><span class="wave rt">Retargeting</span>${esc(r.hook)}</h3>
+    <p class="meta">${esc(r.fmt)} · <span class="code">${r.id}</span></p>
+    <p class="desc">${esc(r.desc)}</p>
+    <div class="steps">${STEPS.map((st,i)=>`<label><input type="checkbox" data-check="cr.${r.id}.${i}">${st}</label>`).join("")}</div>
+  </div>`;
+});
+ch += `</section>`;
+ch += `<section><h2><span class="n">+</span>Notas para la grabación</h2><textarea data-text="crea.notes" placeholder="Fechas posibles para grabar, ganchos que cambiarías, ideas…"></textarea></section>`;
+document.getElementById("crea").innerHTML = ch;
+
+const PIECE_CODES = [...document.querySelectorAll("[data-piece]")].map(d=>d.dataset.piece);
+
 // Restore
-app.querySelectorAll("input[type=radio]").forEach(r => { if (data[r.name] === r.value) r.checked = true; });
-app.querySelectorAll("[data-info]").forEach(i => { i.value = data["i:"+i.dataset.info] || ""; });
-app.querySelectorAll("[data-check]").forEach(c => { c.checked = !!data["c:"+c.dataset.check]; });
-app.querySelectorAll("[data-text]").forEach(t => { t.value = data["t:"+t.dataset.text] || ""; });
+document.querySelectorAll("input[type=radio]").forEach(r => { if (data[r.name] === r.value) r.checked = true; });
+document.querySelectorAll("[data-info]").forEach(i => { i.value = data["i:"+i.dataset.info] || ""; });
+document.querySelectorAll("[data-check]").forEach(c => { c.checked = !!data["c:"+c.dataset.check]; });
+document.querySelectorAll("[data-text]").forEach(t => { t.value = data["t:"+t.dataset.text] || ""; });
 
 const radioKeys = [...new Set([...app.querySelectorAll("input[type=radio]")].map(r=>r.name))];
 const openKeys = [...app.querySelectorAll("[data-open]")].map(d=>d.dataset.open);
-document.getElementById("total").textContent = radioKeys.length + openKeys.length;
+const LAST = STEPS.length - 1;
+let tab = "plan";
 
 function paint(){
   app.querySelectorAll(".item[data-k]").forEach(it => {
     const v = data[it.dataset.k];
     it.className = "item" + (v ? " s-"+v : "");
   });
-  const done = radioKeys.filter(k=>data[k]).length + openKeys.filter(k=>(data["t:"+k]||"").trim()).length;
-  const total = radioKeys.length + openKeys.length;
+  document.querySelectorAll(".piece").forEach(p => {
+    p.classList.toggle("done", !!data[`c:cr.${p.dataset.piece}.${LAST}`]);
+  });
+  let done, tot, label;
+  if (tab === "plan") {
+    done = radioKeys.filter(k=>data[k]).length + openKeys.filter(k=>(data["t:"+k]||"").trim()).length;
+    tot = radioKeys.length + openKeys.length; label = "puntos marcados";
+  } else {
+    done = PIECE_CODES.filter(c=>data[`c:cr.${c}.${LAST}`]).length;
+    tot = PIECE_CODES.length; label = "creativos subidos";
+  }
   document.getElementById("count").textContent = done;
-  document.getElementById("fill").style.width = (done/total*100) + "%";
+  document.getElementById("total").textContent = tot;
+  document.getElementById("plabel").textContent = label;
+  document.getElementById("fill").style.width = (done/tot*100) + "%";
 }
+
+function showTab(name){
+  tab = name === "creativos" ? "creativos" : "plan";
+  document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab));
+  document.getElementById("panel-plan").hidden = tab !== "plan";
+  document.getElementById("panel-creativos").hidden = tab !== "creativos";
+  if (location.hash.slice(1) !== tab) history.replaceState(null, "", "#" + tab);
+  paint();
+}
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { showTab(b.dataset.tab); window.scrollTo(0,0); }));
+window.addEventListener("hashchange", () => showTab(location.hash.slice(1)));
 let t;
 function save(){
   try { localStorage.setItem(STORE, JSON.stringify(data)); document.getElementById("saved").textContent = "guardado"; }
   catch(e){ document.getElementById("saved").textContent = "no se puede guardar en este navegador"; }
 }
-app.addEventListener("input", e => {
+document.addEventListener("input", e => {
   const el = e.target;
   if (el.type === "radio") data[el.name] = el.value;
   else if (el.dataset.info) data["i:"+el.dataset.info] = el.value;
@@ -288,7 +470,7 @@ app.addEventListener("input", e => {
   document.getElementById("saved").textContent = "guardando…";
   clearTimeout(t); t = setTimeout(save, 300);
 });
-paint();
+showTab(location.hash.slice(1));
 
 function summary(){
   const out = ["Plan técnico de arranque · respuestas de Rafa", ""];
@@ -313,7 +495,14 @@ function summary(){
     out.push("");
   });
   const ex = (data["t:extra"]||"").trim();
-  if (ex) out.push("ALGO MÁS", ex);
+  if (ex) out.push("ALGO MÁS", ex, "");
+  out.push("CREATIVOS");
+  PIECE_CODES.forEach(c => {
+    const st = STEPS.filter((s,i)=>data[`c:cr.${c}.${i}`]);
+    if (st.length) out.push(`- ${c}: ${st.join(", ")}`);
+  });
+  const cn = (data["t:crea.notes"]||"").trim();
+  if (cn) out.push("Notas para la grabación: " + cn);
   return out.join("\n");
 }
 
