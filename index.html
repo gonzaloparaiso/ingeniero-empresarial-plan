@@ -122,8 +122,22 @@
     <div class="rules">
       <div class="rule"><b>El mensaje es el tuyo</b>Los ganchos salen de tu documento de cliente y de tu landing. Cámbialos con tus palabras al grabar.</div>
       <div class="rule"><b>Una sola sesión</b>Las 5 piezas de la ola 1 se graban en una mañana: unas 2 horas, frente a cámara, sin edición.</div>
-      <div class="rule warn"><b>Nos pasas el bruto</b>Nosotros cortamos, subtitulamos y montamos. Graba cada pieza 2 o 3 veces.</div>
+      <div class="rule"><b>Graba cada pieza 2 o 3 veces</b>Así hay donde elegir al montar, lo hagas tú o lo hagamos nosotros.</div>
     </div>
+    <section>
+      <h2><span class="n">?</span>¿Quién monta los vídeos?</h2>
+      <p class="lead">Cualquiera de las dos opciones nos vale. Si los producimos nosotros, necesitamos los brutos, los ganchos y las promesas de cada pieza.</p>
+      <div class="item" data-k="crea.montaje">
+        <p class="q">¿Quieres que montemos nosotros los vídeos?</p>
+        <div class="opts">
+          <label><input type="radio" name="crea.montaje" value="yes"><span class="yes">Sí, montadlos vosotros</span></label>
+          <label><input type="radio" name="crea.montaje" value="no"><span class="no">No, los monto yo</span></label>
+          <label><input type="radio" name="crea.montaje" value="unk"><span class="unk">Lo hablamos</span></label>
+        </div>
+        <input type="text" data-info="crea.brutos" placeholder="Si los montamos nosotros: enlace a los brutos (Drive, WeTransfer…)">
+        <textarea data-text="crea.ganchos" placeholder="Ganchos y promesas de cada pieza. Si te valen los de abajo, escribe «los de la página»." style="margin-top:8px"></textarea>
+      </div>
+    </section>
   </div>
   <main class="wrap" id="crea"></main>
 </div>
@@ -424,7 +438,7 @@ const LAST = STEPS.length - 1;
 let tab = "plan";
 
 function paint(){
-  app.querySelectorAll(".item[data-k]").forEach(it => {
+  document.querySelectorAll(".item[data-k]").forEach(it => {
     const v = data[it.dataset.k];
     it.className = "item" + (v ? " s-"+v : "");
   });
@@ -497,6 +511,10 @@ function summary(){
   const ex = (data["t:extra"]||"").trim();
   if (ex) out.push("ALGO MÁS", ex, "");
   out.push("CREATIVOS");
+  const MONT = {yes:"Sí, montadlos vosotros", no:"No, los monto yo", unk:"Lo hablamos"};
+  out.push(`- ¿Quién monta los vídeos?: ${data["crea.montaje"] ? MONT[data["crea.montaje"]] : "(sin marcar)"}`);
+  const br = (data["i:crea.brutos"]||"").trim(); if (br) out.push(`- Brutos: ${br}`);
+  const gp = (data["t:crea.ganchos"]||"").trim(); if (gp) out.push(`- Ganchos y promesas: ${gp}`);
   PIECE_CODES.forEach(c => {
     const st = STEPS.filter((s,i)=>data[`c:cr.${c}.${i}`]);
     if (st.length) out.push(`- ${c}: ${st.join(", ")}`);
