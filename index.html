@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Plan técnico de arranque · Rafael Navarro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#1a9e8e; --teal-dark:#14786c; --yellow:#f5c518; --mint:#e8f5f3;
+    --ink:#222; --muted:#666; --line:#e4e4e4; --bg:#fafafa; --card:#fff;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:Montserrat,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px;padding-bottom:96px}
+  .wrap{max-width:920px;margin:0 auto;padding:0 16px}
+  header{background:#fff;border-top:10px solid var(--teal);padding:40px 0 28px;border-bottom:1px solid var(--line)}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;color:var(--teal);font-weight:700;font-size:12px;margin:0 0 6px}
+  h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:0;font-weight:800;text-transform:uppercase}
+  .bar{width:68px;height:5px;background:var(--yellow);margin:18px 0}
+  .intro{max-width:680px;margin:0;color:#333}
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:22px}
+  .rule{background:var(--mint);border-left:4px solid var(--teal);padding:12px 14px;font-size:14px}
+  .rule b{display:block;margin-bottom:2px}
+  .rule.warn{border-left-color:var(--yellow);background:#fff8dc}
+  section{margin-top:34px}
+  h2{font-size:20px;font-weight:800;text-transform:uppercase;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .n{background:var(--teal);color:#fff;font-size:14px;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .lead{color:var(--muted);margin:0 0 14px;font-size:14px}
+  .item{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);padding:14px 16px;margin-bottom:10px;transition:border-color .15s}
+  .item.s-yes{border-left-color:var(--teal)}
+  .item.s-no{border-left-color:#c9c9c9}
+  .item.s-unk{border-left-color:var(--yellow)}
+  .q{font-weight:600;margin:0 0 10px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .opts label{cursor:pointer}
+  .opts input{position:absolute;opacity:0;pointer-events:none}
+  .opts span{display:inline-block;border:1.5px solid var(--line);padding:6px 12px;font-size:13px;font-weight:600;background:#fff;user-select:none}
+  .opts input:focus-visible + span{outline:2px solid var(--teal);outline-offset:2px}
+  .opts input:checked + span.yes{background:var(--teal);border-color:var(--teal);color:#fff}
+  .opts input:checked + span.no{background:#555;border-color:#555;color:#fff}
+  .opts input:checked + span.unk{background:var(--yellow);border-color:var(--yellow);color:#222}
+  input[type=text],textarea{width:100%;font:inherit;font-size:14px;border:1px solid var(--line);padding:9px 11px;background:#fff;color:var(--ink)}
+  textarea{min-height:64px;resize:vertical}
+  input[type=text]:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,158,142,.15)}
+  .note{background:var(--mint);padding:12px 14px;font-size:14px;margin-top:12px}
+  table{width:100%;border-collapse:collapse;background:#fff;font-size:14px;margin-top:6px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--teal);color:#fff;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line)}
+  .sub{font-weight:700;margin:18px 0 8px;font-size:14px}
+  .check{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);padding:10px 14px;margin-bottom:6px;cursor:pointer}
+  .check input{margin-top:4px;accent-color:var(--teal);width:17px;height:17px;flex:none}
+  footer{margin-top:44px;padding:24px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  footer b{color:var(--teal)}
+  .dock{position:fixed;left:0;right:0;bottom:0;background:#222;color:#fff;z-index:10}
+  .dock .wrap{display:flex;align-items:center;gap:14px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+  .prog{flex:1;min-width:160px}
+  .prog small{display:block;font-size:12px;color:#ccc;margin-bottom:5px}
+  .track{height:6px;background:#444}
+  .fill{height:6px;background:var(--yellow);width:0;transition:width .2s}
+  .btn{font:inherit;font-weight:700;font-size:14px;border:0;padding:11px 18px;cursor:pointer;text-transform:uppercase;letter-spacing:.04em}
+  .btn.primary{background:var(--teal);color:#fff}
+  .btn.primary:hover{background:var(--teal-dark)}
+  .btn.ghost{background:transparent;color:#fff;border:1.5px solid #666}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--yellow);color:#222;padding:10px 16px;font-weight:600;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1}
+  .saved{font-size:12px;color:#aaa}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="kicker">Easy Peasy Lemon Squeezy · para Rafael Navarro</p>
+    <h1>Plan técnico de arranque</h1>
+    <div class="bar"></div>
+    <p class="intro">Rafa, con esto arrancamos la fase 1 sin perder la primera semana pidiendo cosas. En cada punto marca si ya lo tienes y deja al lado el enlace, el usuario o quién lo gestiona. Al terminar, pulsa <b>Enviar</b> y nos llega por email.</p>
+    <div class="rules">
+      <div class="rule warn"><b>No escribas contraseñas</b>Los accesos se dan invitando a irene.comalada@epls-fit.com como administradora o socia.</div>
+      <div class="rule"><b>¿No lo sabes?</b>Marca «No lo sé» y lo vemos juntos en una llamada de 20 minutos.</div>
+      <div class="rule"><b>Se guarda solo</b>Lo que escribes se queda en este navegador. Puedes cerrar y volver más tarde.</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<div class="wrap">
+  <footer>
+    <b>Easy Peasy Lemon Squeezy</b> · Gonzalo Paraíso · Irene Comalada · info@epls-fit.com
+  </footer>
+</div>
+
+<div class="dock">
+  <div class="wrap">
+    <div class="prog">
+      <small><span id="count">0</span> de <span id="total">0</span> puntos marcados · <span class="saved" id="saved">guardado</span></small>
+      <div class="track"><div class="fill" id="fill"></div></div>
+    </div>
+    <button class="btn ghost" id="copy" type="button">Copiar</button>
+    <button class="btn primary" id="send" type="button">Enviar</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TO = "irene.comalada@epls-fit.com";
+const STORE = "rafa-plan-tecnico-v1";
+
+const SECTIONS = [
+  { id:"accesos", title:"Accesos",
+    lead:"Sin estos accesos no podemos empezar. Es lo primero que necesitamos, idealmente esta semana.",
+    items:[
+      "Meta Business Manager (business.facebook.com)",
+      "Cuenta publicitaria de Meta, con método de pago a tu nombre",
+      "Instagram @ingeniero.empresarial conectado al Business Manager",
+      "Página de Facebook vinculada a ese Instagram",
+      "Web ingenieroempresarial.com: en qué está hecha (WordPress u otra) y usuario administrador para Irene",
+      "Dominio: dónde está comprado y quién gestiona los DNS",
+      "Cuenta de Google (Analytics, Tag Manager)",
+      "Canal de YouTube @ingeniero.empresarial: acceso como administradora",
+      "MailerLite (cuenta nueva): usuario para Irene",
+      "Walead (LinkedIn)"
+    ],
+    note:"Para Meta te pasaremos el ID de nuestro Business Manager: desde el tuyo nos añades como socio y así todo sigue siendo tuyo." },
+
+  { id:"medicion", title:"Fase 1 · Medición",
+    lead:"Hoy la landing no mide nada: las UTM están puestas, pero nada las lee. Esto lo montamos nosotros; solo necesitamos saber qué hay ya instalado.",
+    items:[
+      "Píxel de Meta creado (aunque no esté instalado)",
+      "Dominio verificado en Meta",
+      "Google Analytics 4 en la web",
+      "Google Tag Manager en la web",
+      "Banner de cookies en la web (obligatorio para usar el píxel en España)",
+      "Política de privacidad y de cookies publicadas"
+    ],
+    table:{ caption:"Eventos que vamos a medir (lo hacemos nosotros)",
+      head:["Evento","Cuándo se dispara","Para qué sirve"],
+      rows:[
+        ["Visita a la landing","Entra en /depah","Audiencia de retargeting"],
+        ["Visionado del VSL","Ve el 25, 50 y 75 % del vídeo","Saber quién está caliente"],
+        ["Clic en agendar","Pulsa el botón de reserva","Detectar el abandono en la agenda"],
+        ["Lead","Reserva la llamada (página de gracias)","El evento que optimizan los anuncios"],
+        ["Lista de espera","Se apunta sin agendar","Fase 5"],
+        ["Diagnóstico","Completa un autodiagnóstico","Fase 2 y lead magnet"]
+      ]} },
+
+  { id:"agenda", title:"Fase 1 · Agenda",
+    lead:"Sustituimos Google Calendar por Calendly (u otra que dispare un evento al reservar), con preguntas de cualificación y página de gracias en tu web. Calendly necesita el plan de pago (Standard) para redirigir a la página de gracias.",
+    items:[
+      "Cuenta de Calendly u otra herramienta de agenda",
+      "Calendario donde caen las citas (Google, Outlook…)",
+      "Videollamada: Zoom, Meet o Teams",
+      "Duración de la llamada y franjas disponibles",
+      "Recordatorios antes de la llamada (email o WhatsApp)"
+    ],
+    checks:{ caption:"Preguntas de cualificación propuestas. Marca las que te valen:",
+      items:[
+        "Cargo: propietario, gerente u otro",
+        "Sector (los 5 de la campaña + otro)",
+        "Facturación anual: menos de 2 M€, 2-5, 5-10, 10-20, más de 20",
+        "Número de empleados y años de la empresa",
+        "Reto principal: crecimiento estancado, morir de éxito, dilema estratégico u otro",
+        "¿Estás dispuesto a invertir 5.000 € o más en resolverlo?"
+      ],
+      comment:"¿Cambiarías o añadirías alguna pregunta?" },
+    note:"Quien no cualifica no ve la agenda: le llevamos a un diagnóstico y entra en la base de datos." },
+
+  { id:"landing", title:"Fase 1 · Landing y VSL",
+    lead:"El copy de /depah no se toca: solo formato, logo, testimonios y limpieza. Necesitamos los materiales originales.",
+    items:[
+      "Logo en alta calidad (SVG o PNG con fondo transparente)",
+      "Colores y tipografías corporativas",
+      "Testimonios en vídeo: archivos originales, no solo los destacados de Instagram",
+      "Permiso de esos clientes para usar su vídeo en la web y en anuncios",
+      "VSL subido a YouTube (enlace; indica si es público u oculto)",
+      "Archivo original del VSL, para la nueva miniatura y para recortes",
+      "OK para quitar la mención a FlowDesk y la cita del final",
+      "Precio que mostramos: hoy la landing dice «desde 3.500 €» y el ticket es 3.450 €"
+    ] },
+
+  { id:"diagnosticos", title:"Fase 2 · Diagnósticos y LinkedIn",
+    lead:"Los diagnósticos de /herramientas son el gancho de LinkedIn y el lead magnet de quien no cualifica. Necesitamos saber cómo funcionan por dentro para meter el píxel y conectar los resultados a MailerLite.",
+    items:[
+      "Con qué están hechos los diagnósticos (formulario, plugin, desarrollo propio)",
+      "Qué herramienta envía el PDF del resultado y dónde se guardan los emails",
+      "Los 3 diagnósticos abiertos funcionan de principio a fin",
+      "Registro de socios: dónde se guardan los usuarios",
+      "Cuenta de Walead activa y mensajes que usas hoy",
+      "Perfil de LinkedIn al día (titular, banner, destacado)"
+    ] },
+
+  { id:"base", title:"Fases 4 y 5 · Base de datos y lista de espera",
+    lead:"Los ~200 leads de 2023 son la semilla de la campaña. Para subirlos a Meta y escribirles hace falta tenerlos limpios y con permiso.",
+    items:[
+      "Exportación de los leads en CSV o Excel (nombre, email, teléfono, empresa, sector, fecha)",
+      "Herramienta con la que enviabas la newsletter hasta ahora",
+      "Esos leads aceptaron recibir comunicaciones (casilla, formulario)",
+      "Email de reactivación escrito (lo envías tú)",
+      "Remitente rafael@ingenieroempresarial.com con acceso a los DNS para autenticarlo en MailerLite",
+      "Textos de la secuencia por dolor, o OK para que los redactemos y los revises",
+      "3-4 casos reales con números, anonimizados, para el caso del mes"
+    ] },
+
+  { id:"decisiones", title:"Decisiones antes de la semana 3",
+    lead:"Estas respuestas cambian lo que montamos. Mejor cerrarlas antes de que arranquen los anuncios.",
+    open:[
+      "Qué fases marcaste en la página de firma",
+      "Cuántos clientes puedes acompañar a la vez, sumando los 6 meses de acompañamiento (de eso depende el aviso de plaza)",
+      "Precio del DEPAH que comunicamos: 3.450 € o la nueva estructura",
+      "Quién contesta los mensajes de Instagram que generan los anuncios, y en cuánto tiempo",
+      "Fecha a partir de la cual podemos lanzar anuncios"
+    ] }
+];
+
+const STATES = [["yes","Ya lo tengo"],["no","No lo tengo"],["unk","No lo sé"]];
+const LABEL = Object.fromEntries(STATES);
+
+let data = {};
+try { data = JSON.parse(localStorage.getItem(STORE)) || {}; } catch(e) { data = {}; }
+
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const app = document.getElementById("app");
+let html = "";
+
+SECTIONS.forEach((s, si) => {
+  html += `<section><h2><span class="n">${si+1}</span>${esc(s.title)}</h2><p class="lead">${esc(s.lead)}</p>`;
+  (s.items||[]).forEach((q, qi) => {
+    const k = `${s.id}.${qi}`;
+    html += `<div class="item" data-k="${k}"><p class="q">${esc(q)}</p><div class="opts">` +
+      STATES.map(([v,l]) => `<label><input type="radio" name="${k}" value="${v}"><span class="${v}">${l}</span></label>`).join("") +
+      `</div><input type="text" data-info="${k}" placeholder="Info: enlace, ID, usuario o quién lo gestiona"></div>`;
+  });
+  if (s.table) {
+    html += `<p class="sub">${esc(s.table.caption)}</p><div class="tablewrap"><table><thead><tr>${s.table.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>` +
+      s.table.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("") + `</tbody></table></div>`;
+  }
+  if (s.checks) {
+    html += `<p class="sub">${esc(s.checks.caption)}</p>` +
+      s.checks.items.map((c,ci)=>`<label class="check"><input type="checkbox" data-check="${s.id}.c${ci}"><span>${esc(c)}</span></label>`).join("") +
+      `<textarea data-text="${s.id}.ccomment" placeholder="${esc(s.checks.comment)}"></textarea>`;
+  }
+  (s.open||[]).forEach((q, qi) => {
+    html += `<div class="item" data-open="${s.id}.o${qi}"><p class="q">${esc(q)}</p><textarea data-text="${s.id}.o${qi}" placeholder="Tu respuesta"></textarea></div>`;
+  });
+  if (s.note) html += `<div class="note">${esc(s.note)}</div>`;
+  html += `</section>`;
+});
+html += `<section><h2><span class="n">+</span>Algo más</h2><p class="lead">Cualquier cosa que quieras que sepamos antes de empezar.</p><textarea data-text="extra" placeholder="Comentarios"></textarea></section>`;
+app.innerHTML = html;
+
+// Restore
+app.querySelectorAll("input[type=radio]").forEach(r => { if (data[r.name] === r.value) r.checked = true; });
+app.querySelectorAll("[data-info]").forEach(i => { i.value = data["i:"+i.dataset.info] || ""; });
+app.querySelectorAll("[data-check]").forEach(c => { c.checked = !!data["c:"+c.dataset.check]; });
+app.querySelectorAll("[data-text]").forEach(t => { t.value = data["t:"+t.dataset.text] || ""; });
+
+const radioKeys = [...new Set([...app.querySelectorAll("input[type=radio]")].map(r=>r.name))];
+const openKeys = [...app.querySelectorAll("[data-open]")].map(d=>d.dataset.open);
+document.getElementById("total").textContent = radioKeys.length + openKeys.length;
+
+function paint(){
+  app.querySelectorAll(".item[data-k]").forEach(it => {
+    const v = data[it.dataset.k];
+    it.className = "item" + (v ? " s-"+v : "");
+  });
+  const done = radioKeys.filter(k=>data[k]).length + openKeys.filter(k=>(data["t:"+k]||"").trim()).length;
+  const total = radioKeys.length + openKeys.length;
+  document.getElementById("count").textContent = done;
+  document.getElementById("fill").style.width = (done/total*100) + "%";
+}
+let t;
+function save(){
+  try { localStorage.setItem(STORE, JSON.stringify(data)); document.getElementById("saved").textContent = "guardado"; }
+  catch(e){ document.getElementById("saved").textContent = "no se puede guardar en este navegador"; }
+}
+app.addEventListener("input", e => {
+  const el = e.target;
+  if (el.type === "radio") data[el.name] = el.value;
+  else if (el.dataset.info) data["i:"+el.dataset.info] = el.value;
+  else if (el.dataset.check) data["c:"+el.dataset.check] = el.checked;
+  else if (el.dataset.text) data["t:"+el.dataset.text] = el.value;
+  paint();
+  document.getElementById("saved").textContent = "guardando…";
+  clearTimeout(t); t = setTimeout(save, 300);
+});
+paint();
+
+function summary(){
+  const out = ["Plan técnico de arranque · respuestas de Rafa", ""];
+  SECTIONS.forEach((s, si) => {
+    out.push(`${si+1}. ${s.title.toUpperCase()}`);
+    (s.items||[]).forEach((q, qi) => {
+      const k = `${s.id}.${qi}`;
+      const st = data[k] ? LABEL[data[k]] : "(sin marcar)";
+      const info = (data["i:"+k]||"").trim();
+      out.push(`- ${q}: ${st}${info ? " · " + info : ""}`);
+    });
+    if (s.checks) {
+      const ok = s.checks.items.filter((c,ci)=>data[`c:${s.id}.c${ci}`]);
+      out.push(`Preguntas de cualificación que valen: ${ok.length ? ok.join(" | ") : "(ninguna marcada)"}`);
+      const cm = (data[`t:${s.id}.ccomment`]||"").trim();
+      if (cm) out.push(`Comentario sobre las preguntas: ${cm}`);
+    }
+    (s.open||[]).forEach((q, qi) => {
+      const a = (data[`t:${s.id}.o${qi}`]||"").trim();
+      out.push(`- ${q}: ${a || "(sin responder)"}`);
+    });
+    out.push("");
+  });
+  const ex = (data["t:extra"]||"").trim();
+  if (ex) out.push("ALGO MÁS", ex);
+  return out.join("\n");
+}
+
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("on");
+  setTimeout(()=>el.classList.remove("on"), 4000);
+}
+async function copyText(txt){
+  try { await navigator.clipboard.writeText(txt); return true; }
+  catch(e){
+    const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch(_){}
+    ta.remove(); return ok;
+  }
+}
+document.getElementById("copy").addEventListener("click", async () => {
+  toast(await copyText(summary()) ? "Respuestas copiadas. Pégalas en un email a " + TO : "No se ha podido copiar");
+});
+document.getElementById("send").addEventListener("click", async () => {
+  const body = summary();
+  await copyText(body);
+  const url = `mailto:${TO}?subject=${encodeURIComponent("Plan técnico · respuestas de Rafa")}&body=${encodeURIComponent(body)}`;
+  window.location.href = url;
+  toast("Se abre tu correo. Las respuestas también están copiadas por si el texto llega cortado.");
+});
+</script>
+</body>
+</html>
